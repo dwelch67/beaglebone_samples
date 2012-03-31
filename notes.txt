@@ -16,5 +16,64 @@ THR 0x00 16 bit?
 LSR 0x14  bit 5 set is THR empty
 
 
+gpio 0x44E07000
+21,22,23,24 leds 0-3
+
+gpio revision 0x50600801
+
+13Ch GPIO_DATAOUT
+134h GPIO_OE
+130h GPIO_CTRL
+194h GPIO_SETDATAOUT
+190h GPIO_CLEARDATAOUT
+
+mw.l 0x44e07134 0xFF1FFFFF
+mw.l 0x44e07194 0x00200000
+mw.l 0x44e07190 0x00400000
+
+L4_WKUP 0x44C0_0000
+L4_WKUP configuration 0x44C0_0000
+
+0h CM_WKUP_CLKSTCTRL
+8h CM_WKUP_GPIO0_CLKCTRL
+CM_WKUP 0x44E0_0400
+mw.l 0x44e00408 0x40002
+
+PD_WKUP_L4_WKUP_GCLK (
+GPIO_0_GDBCLK
+WKUP_DOM_RST_N
+PD_WKUP
+
+CM_DPLL 0x44E0_0500
+38h CLKSEL_GPIO0_DBCLK
+
+GPMC_A5
+854h conf_gpmc_a5
+Control Module 0x44E1_0000
+gpio1.21 not gpio0.21
+GPIO1 0x4804_C000
+md.l 0x4804C130
+mw.l 0x4804C134 0xFF1FFFFF
+mw.l 0x4804C194 0x00200000
+mw.l 0x4804C194 0x00400000
+ACh CM_PER_GPIO1_CLKCTRL
+CM_PER_L4LS_CLKSTCTRL bit 19
+mw.l 0x44e000AC 0x40002
 
 
+PD_PER_L4LS_GCLK (OCP)
+GPIO_1_GDBCLK (GPIO1 Debounce)
+GPIO_2_GDBCLK (GPIO2 Debounce)
+GPIO_3_GDBCLK (GPIO3 Debounce)
+pd_per_gpio_1_gdbclk
+CM_PER 0x44E0_0000
+
+GPIO Clock and Reset Management
+The GPIO modules require two clocks: The de-bounce clock is used for the de-bouncing cells. The
+interface clock provided by the peripheral bus (L4 interface) is also the functional clock and is used
+through the entire GPIO module (except within the de-bouncing sub-module). It clocks the OCP interface
+and the internal logic. For GPIO0 the debounce clock is selected from one of three sources using the
+CLKSEL_GPIO0_DBCLK register in the PRCM:
+• The on-chip ~32.768 KHz oscillator (CLK_RC32K)
+• The PER PLL generated 32.768 KHz clock (CLK_32KHZ)
+• The external 32.768 KHz oscillator/clock (CLK_32K_RTC)
