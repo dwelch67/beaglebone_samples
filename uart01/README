@@ -1,0 +1,30 @@
+
+First embedded BeagleBone example.
+
+Since U-Boot has brought up everything, for example the uart, we dont
+have to do that, later, but not just yet.  Likewise memory is up so
+we can just use that as well.  This example runs out of ram and uses
+the uart registers to print stuff out the uart then goes into an
+infinite loop echoing whatever is typed in.
+
+To run hit any key on boot to keep the board from going into linux
+if you dont then reboot from linux or hit the reset button and try
+again.
+
+At the U-Boot prompt to load and run this program, if using minicom
+I recommend running minicom from the directory where you build the
+.bin file then you dont have to navigate very far
+
+U-Boot# loady 0x82000000
+
+You need to then use the commands of your terminal program to download
+using ymodem.  Will leave that up to you (ctrl a then s for minicom)
+
+when it finishes then
+
+U-Boot# go 0x82000000
+
+and it will run!
+
+Press the reset button if you want to try again or do something else
+

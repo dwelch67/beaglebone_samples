@@ -1,0 +1,20 @@
+
+
+AM3359 changing to AM3358
+500MHz usb 780MHz dc
+256MB DDR
+UART0
+
+device_id 0x44E10600
+0x0b94402e AM335x ES1.0 rev1 silicon
+dev_feature 0x44E10604
+0x20ff0383 this is a AM3358
+
+
+UART0 0x44E09000
+THR 0x00 16 bit?
+LSR 0x14  bit 5 set is THR empty
+
+
+
+
