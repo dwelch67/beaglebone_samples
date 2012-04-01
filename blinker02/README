@@ -1,0 +1,29 @@
+
+Simple timer based led blinker for the beaglebone.
+
+Look at blinker01 for the basics of enabling the gpio and blinking the
+leds.
+
+This expands on blinker01 to use a hardware timer.  There are many
+timers in this chip, as with the gpio you have to enable the logic block.
+this example uses TIMER7.  The timer is used without a prescaler and
+in an autoloading manner, basically looping around and around on the
+counter.  The counter counts up, so taking a time stamp minus a prior
+gives the time between time stamps.
+
+The value used in the delay loop, 0x04000000 timer ticks produces a
+tick rate such that the four leds go through their pattern every about
+45 seconds.  Using the second hand of a watch.
+
+Reading the users guide it says the TIMER clock source is or can be
+the system oscillator, which is typically 24Mhz.  The schematic shows
+24Mhz.  So (16*0x04000000)/24,000,000 = 44.7.  The 16x is because there
+are 16 steps to the led pattern, and this measurement was taking over all
+16 steps (all leds off to the next all leds off).
+
+If that is really the clock source for the timers then the processor
+clock which supposedly changes whether you power off of usb or the
+dc power plug, wont affect the timer.
+
+U-Boot# loady 0x82000000
+U-Boot# go 0x82000000
