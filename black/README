@@ -1,0 +1,49 @@
+
+So the original beaglebones were on white boards.  Then they came out
+with the beaglebone black, on a black board.  About half the price.
+
+I got upset with it and tossed it on a shelf for a while when I got
+one right after they came out.  Primary problem was the time taken to
+download the sd card image plus the time taken to write that image
+only to then have it say there wasnt enough room and I would need to
+go buy another, bigger, sd card.
+
+Now on my second go around, enter beaglenmt.
+
+http://vsdev.me/projects/beaglenmt/
+
+A manageable size and worked out of the box, of course this is a rev
+A5A board, and the already insanely painful blue leds are extra painful
+on the A5A.  So per usualy I had to replace them with something far
+less painful, more soldering practice.
+
+The description of the uart pins is odd, but you can figure it out by
+experiment, try rx on your serial card/cable first, dont fry anything
+by using tx first.  Looks like the beaglebone outputs, TX on pin 5
+and inputs, RX, on pin 4.  Remember that most of the time you can
+look on the back, look for the solder pad/hole with a square that is
+pin one, and count up from there.  In this case pin one of that
+connector is on the ethernet end of the board, the end you apply power
+to the board.
+
+Like the beaglebone white I will try to now, that I have it up, either
+put uboot on the flash if possible or investigate other options there
+or modify the sd card files so that it fails to boot linux and just
+stops on uboot.
+
+DDR sucks, you dont want to deal with initializing it in general,
+perhaps they made it easier here, but I am not interested in finding
+out.  Let U-Boot bring up the dram and the uart and other things and
+then I will run from there.  U-Boot has a ymodem load so that is perfect
+
+U-Boot# loady 0x82000000
+
+then use your dumb terminal to y modem transfer the file (alt-a then s
+then select ymodem on minicom) then
+
+U-Boot# go 0x82000000
+
+To run it.
+
+Cost more than a raspberry pi, but it is a screamer and has lots more
+I/O.  Hope to have some fun with it.
