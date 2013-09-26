@@ -1,0 +1,28 @@
+
+Simple led blinker for the beaglebone.
+
+
+Looking at the schematic we see that the leds are on signals named usr0
+to usr3.
+
+USR0 is connected to (V15) GPIO1_21, USR1 to GPIO1_22 and so on.
+
+GPIO1 is not powered on by default and appears that uboot does not power
+that gpio so we first have to feed it with clocks, then we can talk
+to it.
+
+The datasheet (AM335x) shows that for V15, the mode after reset is 7 and
+that mode 7 for GPMC_A5 is gpio1_21, so unless uboot has changed this
+we dont have to change the mode for the pin.
+
+Not using a timer yet, just counting to a big number.  usb powered we
+should be at 500mhz, dc powerd 780 or something.  So count to a big enough
+number, the dummy() function is used to prevent the compiler from optimizing
+the loop out completely.
+
+
+As with the uart01 example, we can stop uboot from running linux and
+load this program over the serial port.
+
+U-Boot# loady 0x82000000
+U-Boot# go 0x82000000

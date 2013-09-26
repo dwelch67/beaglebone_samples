@@ -2,20 +2,11 @@
 So the original beaglebones were on white boards.  Then they came out
 with the beaglebone black, on a black board.  About half the price.
 
-I got upset with it and tossed it on a shelf for a while when I got
-one right after they came out.  Primary problem was the time taken to
-download the sd card image plus the time taken to write that image
-only to then have it say there wasnt enough room and I would need to
-go buy another, bigger, sd card.
-
-Now on my second go around, enter beaglenmt.
-
-http://vsdev.me/projects/beaglenmt/
-
-A manageable size and worked out of the box, of course this is a rev
-A5A board, and the already insanely painful blue leds are extra painful
-on the A5A.  So per usualy I had to replace them with something far
-less painful, more soldering practice.
+I dont know if I did something magical or it came this way but it has
+a U-Boot on it and a Linux distro.  If you setup your serial/uart
+(some flavor of ftdi usb to serial is a good idea 3.3v) on the rx/tx
+pins which is required for any of these examples, then shortly after
+it comes up hit any key to stop it from booting into linux.
 
 The description of the uart pins is odd, but you can figure it out by
 experiment, try rx on your serial card/cable first, dont fry anything
