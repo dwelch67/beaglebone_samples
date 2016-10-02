@@ -58,8 +58,19 @@ void uart_string ( char *s )
     }
 }
 //-------------------------------------------------------------------
+#define WDT_WSPR    0x44E35048
+#define WDT_WWPS    0x44E35034
+void disable_watchdog ( void )
+{
+    PUT32(WDT_WSPR,0xAAAA);
+    while(GET32(WDT_WWPS)&(1<<4)) continue;
+    PUT32(WDT_WSPR,0x5555);
+    while(GET32(WDT_WWPS)&(1<<4)) continue;
+}
+//-------------------------------------------------------------------
 void notmain ( void )
 {
+    disable_watchdog();
     hexstring(0x12345678);
     uart_string("Hello World!\r\n");
     hexstring(0x12345678);
