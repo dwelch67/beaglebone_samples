@@ -1,0 +1,36 @@
+
+
+There is a 6 pin male header next to the left side dual row female
+header.  The dot marking pin 1.
+
+1 GND
+2
+3
+4 RX
+5 TX
+6
+
+Need a 3.3V TTL uart, search for FTDI 3.3v on ebay, or look for one of
+the solutions for the raspberry pi.  search for ftdi at adafruit or
+ftdi breakout or ftdi basic at sparkfun. (I only connect RX/TX but
+also use the same computer to power the BBG and the ftdi board).
+
+There is also a header on the bottom of the board if you have a
+cable and uart solution for that.
+
+
+Sitara AM3358BZCZ100
+
+Search for AM3358BZCZ100 at ti.com.
+
+You need the technical reference manual.  Should get the datasheet as
+well.
+
+UART0 0x44E09000
+
+=>mw 0x44E09000 0x55
+U=>
+
+u-boot has obviously configured the uart, so writing to it as above
+shoves an extra character out.  This is a good place to start.
+
