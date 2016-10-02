@@ -1,0 +1,11 @@
+
+First embedded BeagleBone example.
+
+Since U-Boot has brought up everything, for example the uart, we dont
+have to do that, later, but not just yet.  Likewise memory is up so
+we can just use that as well.  This example runs out of ram and uses
+the uart registers to print stuff out the uart then goes into an
+infinite loop echoing whatever is typed in.
+
+Again we didnt have to init the uart, so we only need to talk to the
+uart status and tx buffer registers.

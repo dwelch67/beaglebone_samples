@@ -1,0 +1,43 @@
+
+See top level README for schematic and other documentation information.
+
+The examples in the u-boot directory are meant to be run using u-boot
+as a bootloader, it is not a custom u-boot.
+
+Whether or not you use the NAND flash u-boot or one run off of the sd-card
+you press space to stop it booting, then
+
+=> loads
+## Ready for S-Record download ...
+
+Then using your terminal program download the .srec file to the target
+for minicom that is ctr-a then press s then up or down arrow to ascii
+then navigate to your file, or press enter a couple of times and it
+will give you an edit box to enter the path.  Even better if you
+launch minicom from the directory where you keep your .srec file you
+can enter the filename without the path.  If you dont exit minicom
+you can do the ctrl-a s up enter enter and then enter a third time
+as the filename is already there.
+
+Once downloaded
+
+## First Load Addr = 0x82000000
+## Last  Load Addr = 0x8200017B
+## Total Size      = 0x0000017C = 380 Bytes
+CACHE: Misaligned operation at range [82000000, 8200017c]
+## Start Addr      = 0x82000000
+=>
+
+It is in memory, to run it
+
+=> go 0x82000000
+
+And it will run, using the uart01 example:
+
+=> go 0x82000000
+## Starting application at 0x82000000 ...
+12345678
+Hello World!
+12345678
+
+

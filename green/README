@@ -31,6 +31,95 @@ UART0 0x44E09000
 =>mw 0x44E09000 0x55
 U=>
 
-u-boot has obviously configured the uart, so writing to it as above
-shoves an extra character out.  This is a good place to start.
+u-boot has obviously configured the uart, so we dont have to just yet.
+We can simply shove a character into the tx buffer.  And that
+character came out as we see above.
+
+Getting a pre-built uboot
+
+
+Use fdisk to make a FAT16 first partition and format it
+umount /dev/sdX1
+umount /dev/sdX2
+...
+fdisk /dev/sdX
+d
+1
+n
+p
+1
+<enter> for default start in the partition
+4095 (or whatever)
+t
+c
+a
+1
+w
+
+mkfs.vfat /dev/sdX1
+
+mount or unplug and replug to automount
+
+wget http://s3.armhf.com/dist/bone/bone-uboot.tar.xz
+mkdir boot
+mount /dev/sdX1 boot
+tar xJvf bone-uboot.tar.xz -C boot
+umount boot
+
+So far pretty easy to build a uboot.
+
+apt-get install gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
+apt install device-tree-compiler
+
+
+git clone https://github.com/u-boot/u-boot
+cd u-boot/
+git checkout v2016.09-rc2 -b tmp
+
+wget -c https://rcn-ee.com/repos/git/u-boot-patches/v2016.09-rc2/0001-am335x_evm-uEnv.txt-bootz-n-fixes.patch
+patch -p1 < 0001-am335x_evm-uEnv.txt-bootz-n-fixes.patch
+
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabi-
+
+make distclean
+make am335x_evm_defconfig
+make
+
+If you look in
+board/ti/am335x/board.c
+
+You will find a puts("Board: BeagleBone Black\n");  or something like
+that you can change that text
+   puts("Board: BeagleBone Greeny\n");
+And make again.
+
+copy the MLO and u-boot.img files from the base u-boot directory
+to the sd card.
+
+UNPLUG the BBG from its power source.  There is a user button near the
+sd card SAFELY unmount the sd card (sync; umount /dev/sdX1) plug it
+into the BBG.  There is a button on the sd card end of the board not
+far from the sd card but on top.  Press and hold that button down while
+plugging power in.  It will boot off of the sd card instead of the
+on board NAND flash.  Subsequent resets (top right of board) will
+remember this sd setting.  So you can unplug the sd card, make mods to
+and build u-boot, copy the files, safely unmount, move it back and
+hit reset.  The "sd card dance".
+
+I have a u-boot directory that is not u-boot, that is examples that
+are to be loaded using u-boot as the bootloader and run from there
+(they assume u-boot has initialized things like the uart, memory, etc).
+I hope to create another top directory and put uboot replacement examples
+there.
+
+With respect to u-boot loaded programs, printenv has clues like this
+
+kernel_addr_r=0x82000000
+loadaddr=0x82000000
+
+Showing us an address we can use to load our own programs instead of
+the linux kernel.
+
+Start with u-boot/uart01/
 
